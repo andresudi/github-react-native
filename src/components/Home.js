@@ -27,7 +27,6 @@ export class Home extends Component {
         <Fragment>
             <ScrollView>
                 {
-                    // this.props.isLoading ? <Spinner color= 'blue' /> : 
                     (
                         <FlatList 
                             data={this.props.users}

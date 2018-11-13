@@ -6,7 +6,8 @@ import {
   Image,
   Modal,
   TouchableHighlight,
-  ScrollView
+  ScrollView,
+  FlatList
 } from "react-native";
 import {
   Content,
@@ -21,12 +22,14 @@ import {
   Right,
   Spinner
 } from "native-base";
+import RepoCard from "./ReporCard";
 import axios from "axios";
 import moment from "moment";
 
 class Detail extends Component {
   state = {
     userDetail: [],
+    userRepos: [],
     isLoading: true
   };
   user = () => {
@@ -36,13 +39,35 @@ class Detail extends Component {
         this.props.navigation.state.params.data.login
       }`,
       headers: {
-        Authorization: "token a49e16d6187a9904b1511f340bc4bb7f8521b477"
+        Authorization: "token 87612c7db17941a8b863b26abcf34f198af85404"
       }
     })
       .then(result => {
         console.log("ini result detail", result);
         this.setState({
           userDetail: result.data,
+          isLoading: false
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  repos = () => {
+    axios({
+      method: "get",
+      url: `https://api.github.com/users/${
+        this.props.navigation.state.params.data.login
+      }/repos`,
+      headers: {
+        Authorization: "token 87612c7db17941a8b863b26abcf34f198af85404"
+      }
+    })
+      .then(result => {
+        console.log("ini result repos", result.data[0]);
+        this.setState({
+          userRepos: result.data,
           isLoading: false
         });
       })
@@ -61,6 +86,7 @@ class Detail extends Component {
 
   componentDidMount = () => {
     this.user();
+    this.repos();
     console.log(this.props);
   };
 
@@ -71,21 +97,23 @@ class Detail extends Component {
         <ScrollView>
           <Content>
             <Card style={{ flex: 1, paddingBottom: 28 }}>
-            { this.state.isLoading ? <Spinner color='blue'/> : (
-              <Image
-                source={{
-                  uri: `${data.avatar_url}`
-                }}
-                style={{
-                  height: 200,
-                  width: 355,
-                  resizeMode: "contain",
-                  alignContent: "center",
-                  justifyContent: "center",
-                  marginTop: 10
-                }} 
-              />
-            )}
+              {this.state.isLoading ? (
+                <Spinner color="blue" />
+              ) : (
+                <Image
+                  source={{
+                    uri: `${data.avatar_url}`
+                  }}
+                  style={{
+                    height: 200,
+                    width: 355,
+                    resizeMode: "contain",
+                    alignContent: "center",
+                    justifyContent: "center",
+                    marginTop: 10
+                  }}
+                />
+              )}
               <CardItem>
                 <Left>
                   <Body>
@@ -104,10 +132,29 @@ class Detail extends Component {
                     <Text note>Location: {this.formatNull(data.location)}</Text>
                     <Text note>Email: {this.formatNull(data.email)}</Text>
                     <Text note>Bio: {this.formatNull(data.bio)}</Text>
-                    <Text note>
+                    <Text note style={{marginBottom: 10}}>
                       Join Date:{" "}
                       {moment(this.formatNull(data.created_at)).format("LLL")}
                     </Text>
+                    <Text
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: 20,
+                        marginBottom: 10
+                      }}
+                    >
+                      User's Repos:
+                    </Text>
+                    <FlatList
+                      data={this.state.userRepos}
+                      keyExtractor={index => index.id}
+                      keyExtractor={index => index.id}
+                      renderItem={({ item }) => (
+                        <Fragment>
+                          {<RepoCard data={item} {...this.props} />}
+                        </Fragment>
+                      )}
+                    />
                   </Body>
                 </Left>
               </CardItem>

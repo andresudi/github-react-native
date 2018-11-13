@@ -7,7 +7,7 @@ export const getUsers = () => {
             method: "get",
             url: "https://api.github.com/users?page=2&per_page=100",
             headers: {
-                "Authorization": "token a49e16d6187a9904b1511f340bc4bb7f8521b477"
+                "Authorization": "token 87612c7db17941a8b863b26abcf34f198af85404"
             }
         })
         .then((result) => {

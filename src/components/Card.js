@@ -23,14 +23,6 @@ import {
 } from "native-base";
 
 export class Card extends Component {
-  todoType = type => {
-    if (type.completed == true) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
   goToStack = id => {
     this.props.navigation.navigate("Detail", { data: this.props.data });
   };
