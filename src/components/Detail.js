@@ -25,6 +25,7 @@ import {
 import RepoCard from "./ReporCard";
 import axios from "axios";
 import moment from "moment";
+import isToken from '../store/reducer/isToken'
 
 class Detail extends Component {
   state = {
@@ -39,7 +40,7 @@ class Detail extends Component {
         this.props.navigation.state.params.data.login
       }`,
       headers: {
-        Authorization: "token 87612c7db17941a8b863b26abcf34f198af85404"
+        Authorization: isToken
       }
     })
       .then(result => {
@@ -61,7 +62,7 @@ class Detail extends Component {
         this.props.navigation.state.params.data.login
       }/repos`,
       headers: {
-        Authorization: "token 87612c7db17941a8b863b26abcf34f198af85404"
+        Authorization: isToken
       }
     })
       .then(result => {

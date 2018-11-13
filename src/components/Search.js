@@ -14,9 +14,9 @@ import {
 } from "native-base";
 import { connect } from "react-redux";
 import axios from "axios";
-import { getTodo } from "../store/action/todoAction";
+import { getUsers } from '../store/action/indexAction'
 
-export class Add extends Component {
+export class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -41,16 +41,7 @@ export class Add extends Component {
         })
         .then(() => {
           console.log("success add todo");
-          alert("success add new todo");
-          //   Alert.alert("Info", `Successfully add todo`, [
-          //     {
-          //       text: "OK",
-          //       onPress: () => {
-          //         this.props.getTodo();
-          //         // this.props.navigation.state.params.navigate("Home");
-          //       }
-          //     }
-          //   ]);
+          alert("create add andre repos");
         })
         .catch(err => {
           console.log(err);
@@ -85,7 +76,7 @@ export class Add extends Component {
               style={{ marginRight: 20 }}
               onPress={() => this.addTodo()}
             >
-              <Text> Add Task</Text>
+              <Text> Create Andre's Repo</Text>
             </Button>
           </Container>
         </Content>
@@ -96,11 +87,11 @@ export class Add extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getTodo: () => dispatch(getTodo())
+    
   };
 };
 
 export default connect(
   null,
   mapDispatchToProps
-)(Add);
+)(Search);

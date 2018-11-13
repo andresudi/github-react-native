@@ -18,7 +18,7 @@ import { Provider } from "react-redux";
 import store from "./src/store/index";
 
 import Home from "./src/components/Home";
-import Add from "./src/components/Add"
+import Search from "./src/components/Search"
 import Detail from './src/components/Detail'
 
 export default class App extends Component {
@@ -56,16 +56,16 @@ const homeStackNav = createStackNavigator({
   Detail
 });
 
-const addStackNav = createStackNavigator({
+const searchStackNav = createStackNavigator({
   Add: {
-    screen: Add,
+    screen: Search,
     navigationOptions: () => ({
       headerTitle: (
         <View style={styles.nav}>
           <Image
             source={{
               uri:
-                "http://www.jerami.info/wp-content/uploads/2017/12/qlue.png"
+                "https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png"
             }}
             style={styles.image}
           />
@@ -77,15 +77,15 @@ const addStackNav = createStackNavigator({
 
 const BottomNav = createBottomTabNavigator({
   Home: homeStackNav,
-  Add: addStackNav,
+  Search: searchStackNav,
 }, {
   navigationOptions: ({ navigation }) => ({
     tabBarIcon: ({ focused, horizontal, tintColor }) => {
       const { routeName } = navigation.state;
       if (routeName === 'Home') {
         return <Image source={{uri: "https://png2.kisspng.com/20180320/wsw/kisspng-iphone-mobile-app-pocket-android-application-packa-windows-tasks-for-icons-5ab109b85f07c6.0633142515215518003893.png"}} style={{ width: 22, height: 22 }}/>
-      } else if (routeName === 'Add') {
-        return <Image source={{uri: "http://www.centroescolarlasaguilas.com.mx/Img/Tarea.png"}} style={{ width: 22, height: 22 }}/>
+      } else if (routeName === 'Search') {
+        return <Image source={{uri: "https://cdn0.iconfinder.com/data/icons/lamar/512/Loop-512.png"}} style={{ width: 22, height: 22 }}/>
       } 
     },
   }),

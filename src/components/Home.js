@@ -10,14 +10,11 @@ import {
 } from "react-native";
 import { Picker, Item, Icon, Spinner, Text as TextNativeBase } from 'native-base';
 import { connect } from "react-redux";
-// import { getTodo } from "../store/action/todoAction";
 import { getUsers } from "../store/action/indexAction"
-
 import Card from '../components/Card'
 
 export class Home extends Component {
   componentDidMount = () => {
-    // this.props.getTodo()
     this.props.getUsers()
     console.log(this.props)
   };

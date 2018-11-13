@@ -1,4 +1,5 @@
 import axios from  'axios'
+import isToken from '../reducer/isToken'
 
 export const getUsers = () => {
     return (dispatch, getState) => {
@@ -7,7 +8,7 @@ export const getUsers = () => {
             method: "get",
             url: "https://api.github.com/users?page=2&per_page=100",
             headers: {
-                "Authorization": "token 87612c7db17941a8b863b26abcf34f198af85404"
+                "Authorization": isToken
             }
         })
         .then((result) => {
