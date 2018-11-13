@@ -2,8 +2,7 @@ import axios from  'axios'
 import isToken from '../reducer/isToken'
 
 export const getUsers = () => {
-    return (dispatch, getState) => {
-        dispatch({ type: "REQUEST_GET_TODO" })
+    return (dispatch) => {
         axios({
             method: "get",
             url: "https://api.github.com/users?page=2&per_page=100",

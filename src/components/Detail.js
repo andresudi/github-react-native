@@ -25,13 +25,14 @@ import {
 import RepoCard from "./ReporCard";
 import axios from "axios";
 import moment from "moment";
-import isToken from '../store/reducer/isToken'
+import isToken from "../store/reducer/isToken";
 
 class Detail extends Component {
   state = {
     userDetail: [],
     userRepos: [],
-    isLoading: true
+    isLoading: true,
+    haveRepos: false
   };
   user = () => {
     axios({
@@ -47,7 +48,8 @@ class Detail extends Component {
         console.log("ini result detail", result);
         this.setState({
           userDetail: result.data,
-          isLoading: false
+          isLoading: false,
+          haveRepos: true
         });
       })
       .catch(err => {
@@ -133,7 +135,7 @@ class Detail extends Component {
                     <Text note>Location: {this.formatNull(data.location)}</Text>
                     <Text note>Email: {this.formatNull(data.email)}</Text>
                     <Text note>Bio: {this.formatNull(data.bio)}</Text>
-                    <Text note style={{marginBottom: 10}}>
+                    <Text note style={{ marginBottom: 10 }}>
                       Join Date:{" "}
                       {moment(this.formatNull(data.created_at)).format("LLL")}
                     </Text>

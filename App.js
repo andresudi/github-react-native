@@ -72,7 +72,8 @@ const searchStackNav = createStackNavigator({
         </View>
       )
     })
-  }
+  },
+  Detail
 });
 
 const BottomNav = createBottomTabNavigator({

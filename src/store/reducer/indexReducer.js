@@ -1,6 +1,6 @@
 const intiateState = {
     users: [],
-    isLoading: false
+    isLoading: true,
 }
 
 const indexReduer = (state=intiateState, action) => {
@@ -9,6 +9,7 @@ const indexReduer = (state=intiateState, action) => {
         return {
             ...state,
             users: action.payload,
+            isLoading: false
         }
         default: 
             return state

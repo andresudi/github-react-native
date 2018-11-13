@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { View, Image, Alert } from "react-native";
+import React, { Component, Fragment } from "react";
+import { View, Image, Alert, ScrollView, FlatList } from "react-native";
 import {
   Icon,
   Container,
@@ -10,88 +10,78 @@ import {
   Label,
   Button,
   Text,
-  Spinner
+  Spinner,
+  Header
 } from "native-base";
-import { connect } from "react-redux";
 import axios from "axios";
-import { getUsers } from '../store/action/indexAction'
+import { getUsers } from "../store/action/indexAction";
+import isToken from "../store/reducer/isToken";
+import SearchCard from "../components/SearchCard";
 
 export class Search extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: false
-    };
-  }
   state = {
-    userId: "",
-    title: "",
-    completed: false
+    searchUsers: [],
+    inputUsers: "",
+    show: false
   };
 
-  addTodo = () => {
-    console.log("kepencet");
-    if (this.state.userId === "" || this.state.title === "") {
-      alert("all data must be filled");
-    } else {
-      axios
-        .post("https://jsonplaceholder.typicode.com/posts", {
-          userId: this.state.userId,
-          title: this.state.title
-        })
-        .then(() => {
-          console.log("success add todo");
-          alert("create add andre repos");
-        })
-        .catch(err => {
-          console.log(err);
+  search = () => {
+    axios({
+      method: "get",
+      url: `https://api.github.com/search/users?q=${this.state.inputUsers}`,
+      headers: {
+        Authorization: isToken
+      }
+    })
+      .then(result => {
+        console.log("ini search result", result.data.items);
+        this.setState({
+          searchUsers: result.data.items,
+          show: true
         });
-    }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  componentDidMount = () => {
+    this.search();
   };
 
   render() {
     return (
-      <Container>
-        <Content>
-          <Form>
-            <Item floatingLabel>
-              <Label>User Name / User Id</Label>
-              <Input onChangeText={userId => this.setState({ userId })} />
+      <Fragment>
+        <Container>
+          <Content>
+            <Item rounded style={{ marginTop: 10 }}>
+              <Input
+                onChangeText={inputUsers => this.setState({ inputUsers })}
+                placeholder="Search User's Github here.."
+              />
             </Item>
-            <Item floatingLabel last>
-              <Label>Task</Label>
-              <Input onChangeText={title => this.setState({ title })} />
-            </Item>
-          </Form>
-
-          <Container
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              marginTop: 25
-            }}
-          >
-            <Button
-              primary
-              style={{ marginRight: 20 }}
-              onPress={() => this.addTodo()}
+            <Container
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                marginTop: 10
+              }}
             >
-              <Text> Create Andre's Repo</Text>
-            </Button>
-          </Container>
-        </Content>
-      </Container>
+              <Button
+                rounded
+                info
+                style={{ marginRight: 20 }}
+                onPress={() => this.search()}
+              >
+                <Text>Search</Text>
+              </Button> 
+            </Container>
+          </Content>
+          {this.state.show && <SearchCard data={this.state.searchUsers} navigation={this.props.navigation}/>}
+        </Container>
+      </Fragment>
     );
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    
-  };
-};
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(Search);
+export default Search;

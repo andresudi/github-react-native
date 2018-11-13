@@ -13,6 +13,8 @@ import { connect } from "react-redux";
 import { getUsers } from "../store/action/indexAction"
 import Card from '../components/Card'
 
+console.disableYellowBox = true;
+
 export class Home extends Component {
   componentDidMount = () => {
     this.props.getUsers()
